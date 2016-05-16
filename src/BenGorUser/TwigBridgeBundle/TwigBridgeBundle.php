@@ -31,5 +31,18 @@ class TwigBridgeBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         $this->checkDependencies(['BenGorUserBundle', 'TwigBundle'], $container);
+
+        $container->loadFromExtension('framework', [
+            'translator' => [
+                'paths' => [
+                    '%kernel.root_dir%/../vendor/bengor-user/twig-bridge/src/BenGorUser/TwigBridge/Infrastructure/Ui/Translations',
+                ],
+            ],
+        ]);
+        $container->loadFromExtension('twig', [
+            'paths' => [
+                '%kernel.root_dir%/../vendor/bengor-user/twig-bridge/src/BenGorUser/TwigBridge/Infrastructure/Ui/Twig/views' => 'bengor_user',
+            ],
+        ]);
     }
 }
