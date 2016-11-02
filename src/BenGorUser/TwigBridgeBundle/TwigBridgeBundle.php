@@ -35,14 +35,27 @@ class TwigBridgeBundle extends Bundle
         $container->loadFromExtension('framework', [
             'translator' => [
                 'paths' => [
-                    '%kernel.root_dir%/../vendor/bengor-user/twig-bridge/src/BenGorUser/TwigBridge/Infrastructure/Ui/Translations',
+                    $this->basePath() . '/Translations',
                 ],
             ],
         ]);
         $container->loadFromExtension('twig', [
             'paths' => [
-                '%kernel.root_dir%/../vendor/bengor-user/twig-bridge/src/BenGorUser/TwigBridge/Infrastructure/Ui/Twig/views' => 'bengor_user',
+                $this->basePath() . '/Twig/views' => 'bengor_user',
             ],
         ]);
+    }
+
+    /**
+     * Gets the base path obtained via reflection,
+     * agnostic to the Symfony root dir location.
+     *
+     * @return string
+     */
+    private function basePath()
+    {
+        $directory = dirname((new \ReflectionClass(self::class))->getFileName());
+
+        return $directory . '/../../../../twig-bridge/src/BenGorUser/TwigBridge/Infrastructure/Ui';
     }
 }

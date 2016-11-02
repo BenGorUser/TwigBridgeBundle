@@ -14,6 +14,7 @@ namespace spec\BenGorUser\TwigBridgeBundle;
 
 use BenGorUser\TwigBridgeBundle\TwigBridgeBundle;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -47,19 +48,8 @@ class TwigBridgeBundleSpec extends ObjectBehavior
             'TwigBundle'       => 'Symfony\\Bundle\\TwigBundle\\TwigBundle',
         ]);
 
-        $container->loadFromExtension('framework', [
-            'translator' => [
-                'paths' => [
-                    '%kernel.root_dir%/../vendor/bengor-user/twig-bridge/src/BenGorUser/TwigBridge/Infrastructure/Ui/Translations',
-                ],
-            ],
-        ])->shouldBeCalled()->willReturn($container);
-
-        $container->loadFromExtension('twig', [
-            'paths' => [
-                '%kernel.root_dir%/../vendor/bengor-user/twig-bridge/src/BenGorUser/TwigBridge/Infrastructure/Ui/Twig/views' => 'bengor_user',
-            ],
-        ])->shouldBeCalled()->willReturn($container);
+        $container->loadFromExtension('framework', Argument::type('array'))->shouldBeCalled()->willReturn($container);
+        $container->loadFromExtension('twig', Argument::type('array'))->shouldBeCalled()->willReturn($container);
 
         $this->build($container);
     }
